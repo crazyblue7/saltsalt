@@ -1,8 +1,10 @@
+#include <cstdio>
 #include <raylib.h>
 #include <string>
+#include "helper.h"
 
 int width  = 1280;
-int height = 800;
+int height = 720;
 
 void openingThingo(void) {
 	int frame = 0;
@@ -23,7 +25,7 @@ void openingThingo(void) {
 			if ( frame > startshownoai ) {
 				// show the noai thing
 				if ( frame > startshownoai+fadinglength && frame < startshownoai+fadinglength+thingoshowlength ) {
-					DrawText(noai.c_str(), width/2-250, height/2, 30, {255,255,255,255});
+					DrawText(noai.c_str(), (float)width/2-width/5.12, height/2, height/26.66, {255,255,255,255});
 				} else {
 					int what = ((float) (frame-startshownoai)/fadinglength)*255;
 					unsigned char opacity;
@@ -33,7 +35,7 @@ void openingThingo(void) {
 						opacity = (unsigned char) what;
 					}
 					printf("%i\n",what);
-					DrawText(noai.c_str(), width/2-250, height/2, 30, {255,255,255,opacity});
+					DrawText(noai.c_str(), (float)width/2-width/5.12, height/2, height/26.66, {255,255,255,opacity});
 				}
 				if ( frame > startshownoai+fadinglength*2 + thingoshowlength) {
 					break;
@@ -51,7 +53,7 @@ void openingThingo(void) {
 			if ( frame > startshowmewocorp ) {
 				// show the noai thing
 				if ( frame > startshowmewocorp+fadinglength && frame < startshowmewocorp+fadinglength+thingoshowlength ) {
-					DrawText(mewocorp.c_str(), width/2-400, height/2, 30, {255,255,255,255});
+					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,255});
 				} else {
 					int what = ((float) (frame-startshowmewocorp)/fadinglength)*255;
 					unsigned char opacity;
@@ -60,8 +62,8 @@ void openingThingo(void) {
 					} else {
 						opacity = what;
 					}
-					printf("%i\n",what);
-					DrawText(mewocorp.c_str(), width/2-400, height/2, 30, {255,255,255,opacity});
+					//printf("%i\n",what);
+					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,opacity});
 				}
 				if ( frame > startshowmewocorp+fadinglength*2 + thingoshowlength) {
 					break;
@@ -71,21 +73,69 @@ void openingThingo(void) {
 	}
 }
 
-void mainMenu(void) {
+void levelSelect() {
 	while ( true ) {
-		if ( IsKeyDown(KEY_ESCAPE) ) {
+		if ( IsKeyPressed(KEY_ESCAPE) ) {
 			return;
 		}
 		BeginDrawing();
 			ClearBackground({255,108,108});
-			DrawText("press esc to leave!", 30, 30, height/36, WHITE);
-			DrawText("Salt, salt", width/2 - 140, height/7, height/10, WHITE);
+		EndDrawing();
+	}
+}
+
+void mainMenu(void) {
+	Vector2 mousePos = GetMousePosition();
+
+	Color buttonColor = {255,56,56, 255};
+
+	float buttonHeight;
+	float buttonWidth;
+
+	Rectangle mouseRect    = {mousePos.x, mousePos.y, 1, 1};
+	Rectangle playRect     = {(float)width/2,(float)height/2,buttonWidth,buttonHeight};
+	Rectangle toggleFSrect = {(float)width/2,(float)height/2+buttonHeight+(float)height/160,buttonWidth,buttonHeight}; // toggle fullscreen
+	
+	CentralizeRect(&playRect);
+	CentralizeRect(&toggleFSrect);
+	while ( true ) {
+		width = GetScreenWidth();
+		height = GetScreenHeight();
+		mousePos = GetMousePosition();
+
+		buttonHeight = (float)height/16;
+		buttonWidth  = width/3.0;
+
+		playRect     = {(float)width/2,(float)height/2,buttonWidth,buttonHeight};
+		toggleFSrect = {(float)width/2,(float)height/2+buttonHeight+(float)height/160,buttonWidth,buttonHeight}; // toggle fullscreen
+		CentralizeRect(&playRect);
+		CentralizeRect(&toggleFSrect);
+		if ( IsKeyPressed(KEY_ESCAPE) ) {
+			return;
+		}
+		if ( IsMouseButtonPressed(0) && CheckCollisionPointRec(mousePos, playRect) ) {
+			levelSelect();
+		}
+
+		if ( IsMouseButtonPressed(0) && PointRectColision(mousePos, toggleFSrect) ) {
+			ToggleFullscreen();
+		}
+
+		BeginDrawing();
+			ClearBackground({255,108,108});
+			DrawText("press esc to leave!", width/42.66, height/26.66, height/26.66/*was 20px before*/, WHITE);
+			DrawText("salt, salt", (float)width/2 - (height/11.11 * 2.3), height/7, height/11.11, WHITE);
+			DrawRect(playRect, buttonColor);
+			DrawTextFromRect("play", playRect, WHITE);
+			DrawRect(toggleFSrect, buttonColor);
+			DrawTextFromRect("toggle fullscreen", toggleFSrect, WHITE);
 		EndDrawing();
 	}
 }
 
 int main(void) {
-	InitWindow(width,height,"test");
+	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	InitWindow(width,height,"swalt");
 	SetTargetFPS(144);
 	//openingThingo();
 	mainMenu();
