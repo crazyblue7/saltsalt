@@ -4,7 +4,7 @@
 #include "helper.h"
 
 int width  = 1280;
-int height = 720;
+int height = 800;
 
 void openingThingo(void) {
 	int frame = 0;
@@ -104,7 +104,7 @@ void mainMenu(void) {
 		mousePos = GetMousePosition();
 
 		buttonHeight = (float)height/16;
-		buttonWidth  = width/3.0;
+		buttonWidth  = width/2.0;
 
 		playRect     = {(float)width/2,(float)height/2,buttonWidth,buttonHeight};
 		toggleFSrect = {(float)width/2,(float)height/2+buttonHeight+(float)height/160,buttonWidth,buttonHeight}; // toggle fullscreen
