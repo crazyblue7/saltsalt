@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <raylib.h>
 #include <string>
-#include "helper.h"
+#include "helper.hpp"
 
 int width  = 1280;
 int height = 800;
@@ -53,7 +53,7 @@ void openingThingo(void) {
 			if ( frame > startshowmewocorp ) {
 				// show the noai thing
 				if ( frame > startshowmewocorp+fadinglength && frame < startshowmewocorp+fadinglength+thingoshowlength ) {
-					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,255});
+					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + (float)height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,255});
 				} else {
 					int what = ((float) (frame-startshowmewocorp)/fadinglength)*255;
 					unsigned char opacity;
@@ -63,7 +63,7 @@ void openingThingo(void) {
 						opacity = what;
 					}
 					//printf("%i\n",what);
-					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,opacity});
+					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + (float)height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,opacity});
 				}
 				if ( frame > startshowmewocorp+fadinglength*2 + thingoshowlength) {
 					break;
@@ -75,10 +75,13 @@ void openingThingo(void) {
 
 void levelSelect() {
 	while ( true ) {
+		width = GetScreenWidth();
+		height = GetScreenHeight();
 		if ( IsKeyPressed(KEY_ESCAPE) ) {
 			return;
 		}
 		BeginDrawing();
+			DrawBackBtn({(float)width/42.66f,(float)height/26.66f}, {(float)width/18.28f,(float)height/11.42f}, width, height);
 			ClearBackground({255,108,108});
 		EndDrawing();
 	}

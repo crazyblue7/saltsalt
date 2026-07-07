@@ -1,4 +1,4 @@
-CODE = main.cpp helper.c
+CODE = main.cpp helper.cpp
 debug: $(CODE)
 	g++ $(CODE) -o salty -g -lraylib
 	./salty

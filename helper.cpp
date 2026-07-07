@@ -13,3 +13,37 @@ void CentralizeRect(Rectangle *rect) {
 	return;
 }
 void DrawRectCentered(Rectangle rect, Color color) { DrawRectangle(rect.x-rect.width/2, rect.y-rect.height/2, rect.width, rect.height, color); }
+void DrawBackBtn(Vector2 drawpos, Vector2 size, float _WIDTH, float _HEIGHT) {
+	DrawLineEx(
+		drawpos,
+		{
+			drawpos.x + size.x,
+			drawpos.y + size.y/2
+		},
+		_HEIGHT / 200,
+		BLACK
+	);
+	DrawLineEx(
+		{
+			drawpos.x + size.x,
+			drawpos.y + size.y/2
+		},
+		{
+			drawpos.x,
+			drawpos.y + size.y
+		},
+		_HEIGHT / 200,
+		BLACK
+	);
+	DrawLineEx(
+		{
+			drawpos.x,
+			drawpos.y + size.y
+		},
+		drawpos,
+		_HEIGHT / 200,
+		BLACK
+	);
+
+	return;
+}
