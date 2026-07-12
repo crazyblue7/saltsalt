@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <raylib.h>
 #include <string>
 bool PointRectColision(Vector2 point, Rectangle rect) {
@@ -13,11 +14,22 @@ void CentralizeRect(Rectangle *rect) {
 	return;
 }
 void DrawRectCentered(Rectangle rect, Color color) { DrawRectangle(rect.x-rect.width/2, rect.y-rect.height/2, rect.width, rect.height, color); }
-void DrawBackBtn(Vector2 drawpos, Vector2 size, float _WIDTH, float _HEIGHT) {
+void DrawBackBtn(Vector2 drawpos, Vector2 size, float _WIDTH, float _HEIGHT, Color color) {
+	for ( int i = drawpos.y; i < drawpos.y + size.y; i += 1 ) {
+		DrawLineEx(
+			{drawpos.x + size.x, (float)i},
+			{
+				drawpos.x,
+				drawpos.y + size.y/2
+			},
+			_HEIGHT / 200,
+			color
+		);
+	}
 	DrawLineEx(
-		drawpos,
+		{drawpos.x + size.x,drawpos.y},
 		{
-			drawpos.x + size.x,
+			drawpos.x,
 			drawpos.y + size.y/2
 		},
 		_HEIGHT / 200,
@@ -25,11 +37,11 @@ void DrawBackBtn(Vector2 drawpos, Vector2 size, float _WIDTH, float _HEIGHT) {
 	);
 	DrawLineEx(
 		{
-			drawpos.x + size.x,
+			drawpos.x,
 			drawpos.y + size.y/2
 		},
 		{
-			drawpos.x,
+			drawpos.x + size.x,
 			drawpos.y + size.y
 		},
 		_HEIGHT / 200,
@@ -37,13 +49,22 @@ void DrawBackBtn(Vector2 drawpos, Vector2 size, float _WIDTH, float _HEIGHT) {
 	);
 	DrawLineEx(
 		{
-			drawpos.x,
+			drawpos.x + size.x,
 			drawpos.y + size.y
 		},
-		drawpos,
+		{drawpos.x + size.x,drawpos.y},
 		_HEIGHT / 200,
 		BLACK
 	);
 
 	return;
+}
+Vector2 *GetBackBtnPoints(Vector2 drawpos, Vector2 size, float _WIDTH, float _HEIGHT) {
+	Vector2 *points = new Vector2 [3];
+	std::printf("%.0f, %.0f, %.0f, %.0f\n",drawpos.x,drawpos.y,size.x,size.y);
+	points[0] = {drawpos.x + size.x,drawpos.y};
+	points[1] = {drawpos.x, (float)drawpos.y + size.y/2};
+	points[0] = {drawpos.x + size.x, (float)drawpos.y + size.y};
+
+	return points;
 }
