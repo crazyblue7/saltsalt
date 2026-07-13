@@ -185,7 +185,8 @@ int width  = 1280;
 int height = 800;
 
 void DrawFrames(void) {
-	char *tmp = itos(GetFPS()).c_str();
+	char *tmp = (char*)(itos(GetFPS()).c_str());
+	std::cout << "WHAT iS IT " << tmp << std::endl;
 	DrawText(strcat(tmp, " fps"), 10,10, 20, WHITE);
 }
 
@@ -233,7 +234,7 @@ void openingThingo(void) {
 		BeginDrawing();
 			ClearBackground({0,0,0});
 			if ( frame > startshowmewocorp ) {
-				// show the noai thing
+				// show the mewo corp thing
 				if ( frame > startshowmewocorp+fadinglength && frame < startshowmewocorp+fadinglength+thingoshowlength ) {
 					DrawText(mewocorp.c_str(), (float)width/2-(width/3.2 + (float)height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,255});
 				} else {
@@ -260,7 +261,7 @@ void openingThingo(void) {
 		BeginDrawing();
 			ClearBackground({0,0,0});
 			if ( frame > startshowthing ) {
-				// show the noai thing
+				// show the aspect ratio
 				if ( frame > startshowthing+fadinglength && frame < startshowmewocorp+fadinglength+thingoshowlength ) {
 					DrawText("recommended aspect ratio is 16:10", (float)width/2-(width/3.2 + (float)height/2)/2, height/2, (width/42.66 + height/26.66)/2, {255,255,255,255});
 				} else {
@@ -323,7 +324,6 @@ void levelSelect(void) {
 				loopy++;
 				loopx=0;
 			}
-			// std::printf("x %i loopy %i\n",loopx, loopy);
 			if ( IsMouseButtonPressed(0) && PointRectColision(mousePos, {
 				static_cast<float>(width/8.53+loopx*(width/13.47)),
 				static_cast<float>(width/5.33+loopy*(height/8.42)),
@@ -344,7 +344,6 @@ void levelSelect(void) {
 					loopy++;
 					loopx=0;
 				}
-				// std::printf("x %i loopy %i\n",loopx, loopy);
 				DrawRect({
 				static_cast<float>(width/8.53+loopx*(width/13.47)),
 				static_cast<float>(width/5.33+loopy*(height/8.42)),
